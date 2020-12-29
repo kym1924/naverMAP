@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.naver.map.databinding.ActivityMainBinding
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.MarkerIcons
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mainViewModel : MainViewModel by viewModels()
@@ -33,8 +36,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: NaverMap) {
+        val marker = Marker()
+        marker.position = LatLng(37.5670135, 126.9783740)
+
         mainViewModel.lightness.observe(this, Observer { lightness ->
-            lightness?.let { if(lightness) p0.lightness = 0f else p0.lightness = -0.8f }
+            lightness?.let {
+                if(lightness) {
+                    marker.icon = MarkerIcons.BLACK
+                    p0.lightness = 0f
+                }
+                else {
+                    marker.icon = MarkerIcons.YELLOW
+                    p0.lightness = -0.8f
+                }}
+            marker.map = p0
         })
     }
 
