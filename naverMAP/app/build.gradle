@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -30,9 +31,13 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
+    def activity_version = "1.1.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -45,4 +50,7 @@ dependencies {
 
     // naver map SDK
     implementation 'com.naver.maps:map-sdk:3.10.0'
+
+    // Activity-Ktx
+    implementation "androidx.activity:activity-ktx:$activity_version"
 }
