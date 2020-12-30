@@ -35,12 +35,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(p0: NaverMap) {
         val marker = Marker()
-        marker.position = LatLng(37.54, 126.91)
+
+        marker.position = LatLng(37.5670135, 126.9783740)
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.54, 126.91))
                 .animate(CameraAnimation.Linear)
         p0.defaultCameraAnimationDuration = 1000
         p0.moveCamera(cameraUpdate)
+
+        val uiSettings = p0.uiSettings
+        uiSettings.isZoomControlEnabled = false // zoom
+        uiSettings.isScaleBarEnabled = false // scale
+        uiSettings.isCompassEnabled = true // compass
+        uiSettings.isLocationButtonEnabled = true // nowLocation
 
         mainViewModel.lightness.observe(this, Observer { lightness ->
             lightness?.let {
