@@ -39,17 +39,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val marker = Marker()
         marker.position = LatLng(37.5670135, 126.9783740)
 
+        val marker2 = Marker()
+        marker2.position = LatLng(37.5651279, 126.9767904)
+
+        val marker3 = Marker()
+        marker3.position = LatLng(37.5625365, 126.9832241)
+
         mainViewModel.lightness.observe(this, Observer { lightness ->
             lightness?.let {
                 if(lightness) {
                     marker.icon = MarkerIcons.BLACK
+                    marker2.icon = MarkerIcons.BLACK
+                    marker3.icon = MarkerIcons.BLACK
+                    marker.map = p0
+                    marker2.map = p0
+                    marker3.map = p0
                     p0.lightness = 0f
                 }
                 else {
                     marker.icon = MarkerIcons.YELLOW
+                    marker2.icon = MarkerIcons.YELLOW
+                    marker3.icon = MarkerIcons.YELLOW
+                    marker3.map = null
                     p0.lightness = -0.8f
                 }}
-            marker.map = p0
         })
     }
 
