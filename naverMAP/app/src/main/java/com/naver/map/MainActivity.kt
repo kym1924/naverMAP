@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val marker = Marker()
         marker.position = LatLng(37.47166814131256, 127.15149771207183)
 
+        val marker2 = Marker()
+        marker2.position = LatLng(37.47148717476253, 127.15322826732239)
+
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
                 .animate(CameraAnimation.Linear)
         p0.defaultCameraAnimationDuration = 1000
@@ -53,19 +56,33 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             lightness?.let {
                 if(lightness) {
                     marker.icon = MarkerIcons.BLACK
+                    marker2.icon = MarkerIcons.BLACK
                     p0.lightness = 0f
                 }
                 else {
                     marker.icon = MarkerIcons.YELLOW
+                    marker2.icon = MarkerIcons.YELLOW
                     p0.lightness = -0.8f
                 }}
             marker.map = p0
+            marker2.map = p0
         })
 
         p0.setOnMapClickListener { point, coord ->
             Toast.makeText(this, "${coord.latitude}, ${coord.longitude}",
                     Toast.LENGTH_SHORT).show()
         }
-    }
 
+        marker.setOnClickListener {
+            if(marker.height == 120) marker.height= Marker.SIZE_AUTO else marker.height=120
+            if(marker.width == 80) marker.width= Marker.SIZE_AUTO else marker.width=80
+            true
+        }
+
+        marker2.setOnClickListener {
+            if(marker2.height == 120) marker2.height= Marker.SIZE_AUTO else marker2.height=120
+            if(marker2.width == 80) marker2.width= Marker.SIZE_AUTO else marker2.width=80
+            true
+        }
+    }
 }
