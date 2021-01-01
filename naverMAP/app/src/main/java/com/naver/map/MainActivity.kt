@@ -1,6 +1,7 @@
 package com.naver.map
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -35,10 +36,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(p0: NaverMap) {
         val marker = Marker()
+        marker.position = LatLng(37.47166814131256, 127.15149771207183)
 
-        marker.position = LatLng(37.5670135, 126.9783740)
-
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.54, 126.91))
+        val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
                 .animate(CameraAnimation.Linear)
         p0.defaultCameraAnimationDuration = 1000
         p0.moveCamera(cameraUpdate)
@@ -61,6 +61,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 }}
             marker.map = p0
         })
+
+        p0.setOnMapClickListener { point, coord ->
+            Toast.makeText(this, "${coord.latitude}, ${coord.longitude}",
+                    Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
