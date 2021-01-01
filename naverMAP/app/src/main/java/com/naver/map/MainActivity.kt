@@ -35,11 +35,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: NaverMap) {
+        val markers = mutableListOf<Marker>()
+
         val marker = Marker()
         marker.position = LatLng(37.47166814131256, 127.15149771207183)
 
         val marker2 = Marker()
         marker2.position = LatLng(37.47148717476253, 127.15322826732239)
+
+        val marker3 = Marker()
+        marker3.position = LatLng(37.470618799063715, 127.15255865278681)
+
+        markers.add(marker)
+        markers.add(marker2)
+        markers.add(marker3)
+
+        setMarkers(markers, p0)
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
                 .animate(CameraAnimation.Linear)
@@ -55,17 +66,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mainViewModel.lightness.observe(this, Observer { lightness ->
             lightness?.let {
                 if(lightness) {
-                    marker.icon = MarkerIcons.BLACK
-                    marker2.icon = MarkerIcons.BLACK
+                    setLightness(markers, lightness)
                     p0.lightness = 0f
                 }
                 else {
-                    marker.icon = MarkerIcons.YELLOW
-                    marker2.icon = MarkerIcons.YELLOW
+                    setLightness(markers, lightness)
                     p0.lightness = -0.8f
                 }}
-            marker.map = p0
-            marker2.map = p0
         })
 
         p0.setOnMapClickListener { point, coord ->
@@ -74,15 +81,41 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         marker.setOnClickListener {
-            if(marker.height == 120) marker.height= Marker.SIZE_AUTO else marker.height=120
-            if(marker.width == 80) marker.width= Marker.SIZE_AUTO else marker.width=80
+            setSize(markers, 0)
             true
         }
 
         marker2.setOnClickListener {
-            if(marker2.height == 120) marker2.height= Marker.SIZE_AUTO else marker2.height=120
-            if(marker2.width == 80) marker2.width= Marker.SIZE_AUTO else marker2.width=80
+            setSize(markers, 1)
             true
         }
+
+        marker3.setOnClickListener {
+            setSize(markers, 2)
+            true
+        }
+    }
+
+    private fun setSize(markers : List<Marker>, index : Int) {
+        for (i in markers.indices) {
+            markers[i].height = Marker.SIZE_AUTO
+            markers[i].width = Marker.SIZE_AUTO
+        }
+        markers[index].height = 120
+        markers[index].width = 80
+    }
+
+    private fun setLightness(markers : List<Marker>, lightness : Boolean) {
+        for (i in markers.indices) {
+            if (lightness) {
+                markers[i].icon = MarkerIcons.BLACK
+            } else {
+                markers[i].icon = MarkerIcons.YELLOW
+            }
+        }
+    }
+
+    private fun setMarkers(markers : List<Marker>, map : NaverMap) {
+        for(element in markers) element.map = map
     }
 }
