@@ -1,6 +1,7 @@
 package com.naver.map
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.lifecycleOwner = this
 
         setMap()
+        setVisibility(binding)
     }
 
     private fun setMap() {
@@ -78,20 +80,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         p0.setOnMapClickListener { point, coord ->
             Toast.makeText(this, "${coord.latitude}, ${coord.longitude}",
                     Toast.LENGTH_SHORT).show()
+            mainViewModel.setMapClick()
         }
 
         marker.setOnClickListener {
             setSize(markers, 0)
+            mainViewModel.setMarkerClick()
             true
         }
 
         marker2.setOnClickListener {
             setSize(markers, 1)
+            mainViewModel.setMarkerClick()
             true
         }
 
         marker3.setOnClickListener {
             setSize(markers, 2)
+            mainViewModel.setMarkerClick()
             true
         }
     }
@@ -101,8 +107,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             markers[i].height = Marker.SIZE_AUTO
             markers[i].width = Marker.SIZE_AUTO
         }
-        markers[index].height = 120
-        markers[index].width = 80
+        markers[index].height = 150
+        markers[index].width = 100
     }
 
     private fun setLightness(markers : List<Marker>, lightness : Boolean) {
@@ -117,5 +123,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setMarkers(markers : List<Marker>, map : NaverMap) {
         for(element in markers) element.map = map
+    }
+
+    private fun setVisibility(binding : ActivityMainBinding) {
+        mainViewModel.visibility.observe(this, Observer { visibility ->
+            visibility?.let {
+                if (visibility) {
+                    binding.layoutMapClick.visibility = View.VISIBLE
+                    binding.layoutMarkerClick.visibility = View.GONE
+                } else {
+                    binding.layoutMarkerClick.visibility = View.VISIBLE
+                    binding.layoutMapClick.visibility = View.GONE
+                }
+            }
+        })
     }
 }

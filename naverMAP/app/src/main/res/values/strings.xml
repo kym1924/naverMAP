@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">naverMAP</string>
+    <string name="mapclick">MapClick</string>
+    <string name="markerclick">MarkerClick</string>
 </resources>
