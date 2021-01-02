@@ -2,6 +2,7 @@ package com.naver.map
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -84,19 +85,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         marker.setOnClickListener {
-            setSize(markers, 0)
-            mainViewModel.setMarkerClick()
+            setMarkerClick(markers, 0)
             true
         }
 
         marker2.setOnClickListener {
-            setSize(markers, 1)
-            mainViewModel.setMarkerClick()
+            setMarkerClick(markers, 1)
             true
         }
 
         marker3.setOnClickListener {
-            setSize(markers, 2)
+            setMarkerClick(markers, 2)
             mainViewModel.setMarkerClick()
             true
         }
@@ -137,5 +136,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         })
+    }
+
+    private fun setMarkerClick(markers : List<Marker>, index : Int) {
+        setSize(markers, index)
+        mainViewModel.setMarkerClick()
+        findViewById<TextView>(R.id.tv_latitude).text = markers[index].position.latitude.toString()
+        findViewById<TextView>(R.id.tv_longitude).text = markers[index].position.longitude.toString()
     }
 }
