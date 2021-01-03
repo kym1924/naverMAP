@@ -12,16 +12,20 @@ import com.naver.map.databinding.ActivityMainBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val mainViewModel : MainViewModel by viewModels()
+    private lateinit var locationSource: FusedLocationSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding : ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = this
+
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
         setMap()
         setVisibility(binding)
@@ -54,6 +58,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         markers.add(marker3)
 
         setMarkers(markers, p0)
+
+        p0.locationSource = locationSource
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
                 .animate(CameraAnimation.Linear)
@@ -143,5 +149,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mainViewModel.setMarkerClick()
         findViewById<TextView>(R.id.tv_latitude).text = markers[index].position.latitude.toString()
         findViewById<TextView>(R.id.tv_longitude).text = markers[index].position.longitude.toString()
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }

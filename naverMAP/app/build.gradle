@@ -53,4 +53,7 @@ dependencies {
 
     // Activity-Ktx
     implementation "androidx.activity:activity-ktx:$activity_version"
+
+    // Google Location
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
 }
