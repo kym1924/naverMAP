@@ -13,6 +13,7 @@ import com.naver.map.databinding.ActivityMainBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setUiSetting(p0)
 
+        setCurrentLocationIcon(p0)
+        
         p0.locationSource = locationSource
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
@@ -162,6 +165,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         uiSettings.isScaleBarEnabled = true // scale
         uiSettings.isCompassEnabled = true // compass
         uiSettings.isLocationButtonEnabled = true // nowLocation
+    }
+
+    private fun setCurrentLocationIcon(p0 : NaverMap) {
+        val locationOverlay = p0.locationOverlay
+        locationOverlay.isVisible = true
+        locationOverlay.icon = OverlayImage.fromResource(R.mipmap.ic_launcher)
     }
 
     companion object {
