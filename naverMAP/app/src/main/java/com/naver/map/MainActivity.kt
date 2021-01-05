@@ -1,6 +1,7 @@
 package com.naver.map
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -58,6 +59,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         markers.add(marker3)
 
         setMarkers(markers, p0)
+
+        setCameraListener(p0)
 
         p0.locationSource = locationSource
 
@@ -151,6 +154,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         findViewById<TextView>(R.id.tv_longitude).text = markers[index].position.longitude.toString()
     }
 
+    private fun setCameraListener(p0 : NaverMap) {
+        p0.addOnCameraIdleListener {
+            Log.d("end", p0.cameraPosition.toString())
+        }
+    }
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
