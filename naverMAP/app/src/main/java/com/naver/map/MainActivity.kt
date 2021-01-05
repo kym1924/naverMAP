@@ -62,18 +62,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setCameraListener(p0)
 
+        setUiSetting(p0)
+
         p0.locationSource = locationSource
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
                 .animate(CameraAnimation.Linear)
         p0.defaultCameraAnimationDuration = 1000
         p0.moveCamera(cameraUpdate)
-
-        val uiSettings = p0.uiSettings
-        uiSettings.isZoomControlEnabled = false // zoom
-        uiSettings.isScaleBarEnabled = false // scale
-        uiSettings.isCompassEnabled = true // compass
-        uiSettings.isLocationButtonEnabled = true // nowLocation
 
         mainViewModel.lightness.observe(this, Observer { lightness ->
             lightness?.let {
@@ -159,6 +155,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d("end", p0.cameraPosition.toString())
         }
     }
+
+    private fun setUiSetting(p0 : NaverMap) {
+        val uiSettings = p0.uiSettings
+        uiSettings.isZoomControlEnabled = true // zoom
+        uiSettings.isScaleBarEnabled = true // scale
+        uiSettings.isCompassEnabled = true // compass
+        uiSettings.isLocationButtonEnabled = true // nowLocation
+    }
+
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
