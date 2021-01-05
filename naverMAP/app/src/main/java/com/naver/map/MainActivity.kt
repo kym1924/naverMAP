@@ -3,6 +3,7 @@ package com.naver.map
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -66,13 +67,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setUiSetting(p0)
 
         setCurrentLocationIcon(p0)
-        
+
         p0.locationSource = locationSource
 
         val cameraUpdate = CameraUpdate.scrollTo(LatLng(37.47166814131256, 127.15149771207183))
-                .animate(CameraAnimation.Linear)
+                .animate(CameraAnimation.Fly)
         p0.defaultCameraAnimationDuration = 1000
         p0.moveCamera(cameraUpdate)
+
+
+        findViewById<Button>(R.id.btn_move).setOnClickListener{
+            val setCameraMove = CameraUpdate.scrollTo(LatLng(37.556635, 126.908433))
+                    .animate(CameraAnimation.Linear)
+            p0.defaultCameraAnimationDuration = 1000
+            p0.moveCamera(setCameraMove)
+//            None: 애니메이션 없이 이동합니다. 기본값입니다.
+//            Linear: 일정한 속도로 이동합니다.
+//            Easing: 부드럽게 가감속하며 이동합니다. 가까운 거리를 이동할 때 적합합니다.
+//            Fly: 부드럽게 축소됐다가 확대되며 이동합니다. 먼 거리를 이동할 때 적합합니다.
+        }
 
         mainViewModel.lightness.observe(this, Observer { lightness ->
             lightness?.let {
